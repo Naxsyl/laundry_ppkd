@@ -8,7 +8,7 @@
     />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>
-      eCommerce Dashboard | TailAdmin - Tailwind CSS Admin Dashboard Template
+      Laundry Management System
     </title>
   <link rel="icon" href="favicon.ico">
   <link href="{{ asset('admin/build/style.css') }}" rel="stylesheet"></head>
@@ -42,7 +42,7 @@
         <!-- ===== Main Content Start ===== -->
         <main>
           <div class="p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6">
-            
+            {{ $slot }}
           </div>
         </main>
         <!-- ===== Main Content End ===== -->

@@ -46,5 +46,3 @@ return new class extends Migration
         Schema::dropIfExists('sessions');
     }
 };
-
-// add_level_foreign_key_to_users_table

@@ -5,14 +5,14 @@
   <!-- SIDEBAR HEADER -->
   <div
     :class="sidebarToggle ? 'justify-center' : 'justify-between'"
-    class="flex items-center gap-2 pt-8 sidebar-header pb-7"
+    class="flex items-center gap-2 pt-3 sidebar-header pb-2"
   >
     <a href="index.html">
       <span class="logo" :class="sidebarToggle ? 'hidden' : ''">
-        <img class="dark:hidden" src="src/images/logo/logo.svg" alt="Logo" />
+        <img class="dark:hidden" src="{{ asset('compressed/logo.svg') }}" alt="Logo" />
         <img
           class="hidden dark:block"
-          src="src/images/logo/logo-dark.svg"
+          src="{{ asset('compressed/logo-dark.svg') }}"
           alt="Logo"
         />
       </span>
@@ -20,7 +20,7 @@
       <img
         class="logo-icon"
         :class="sidebarToggle ? 'lg:block' : 'hidden'"
-        src="src/images/logo/logo-icon.svg"
+        src="{{ asset('compressed/icon.svg') }}"
         alt="Logo"
       />
     </a>
