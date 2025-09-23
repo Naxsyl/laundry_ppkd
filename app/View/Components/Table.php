@@ -12,12 +12,13 @@ class Table extends Component
     public $rows;
     public $actionComponent;
     public $withNumbering;
+    public $routeName;
 
 
     /**
      * Create a new component instance.
      */
-    public function __construct($rows, $actionComponent = null, $withNumbering = false)
+    public function __construct($rows, $actionComponent = null, $withNumbering = false, $routeName = null)
     {
         $rows = collect($rows);
         // ambil semua key dari data pertama
@@ -26,10 +27,13 @@ class Table extends Component
         // buang 'id' dari headers supaya tidak ditampilkan
         $headers = array_filter($headers, fn($h) => $h !== 'id');
 
+
+
         $this->rows = $rows;
         $this->headers = $headers;
         $this->withNumbering = $withNumbering;
         $this->actionComponent = $actionComponent;
+        $this->routeName = $routeName;
     }
 
     /**

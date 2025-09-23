@@ -59,7 +59,12 @@
               <td class="px-5 py-4 sm:px-6">
                 <div class="flex justify-center items-center">
                   {{-- Render dynamic component dan pass row --}}
-                  <x-dynamic-component :component="$actionComponent" :row="$row" />
+                 @if ($routeName == 'orders')
+                  <x-dynamic-component :component="$actionComponent" :type="$routeName" :routeName="$routeName" :row="$row" />
+                   @else
+                   <x-dynamic-component :component="$actionComponent" :routeName="$routeName" :row="$row" />
+                 @endif
+
                 </div>
               </td>
             @endif

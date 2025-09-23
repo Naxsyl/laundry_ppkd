@@ -1,3 +1,4 @@
+@props(['page'])
 <!doctype html>
 <html lang="en">
   <head>
@@ -11,9 +12,12 @@
       Laundry Management System
     </title>
   <link rel="icon" href="favicon.ico">
-  <link href="{{ asset('admin/build/style.css') }}" rel="stylesheet"></head>
+  
+  <link href="{{ asset('admin/build/style.css') }}" rel="stylesheet">
+</head>
+  
   <body
-    x-data="{ page: 'ecommerce', 'loaded': true, 'darkMode': false, 'stickyMenu': false, 'sidebarToggle': false, 'scrollTop': false }"
+    x-data="{ page: '{{ $page }}', 'loaded': true, 'darkMode': false, 'stickyMenu': false, 'sidebarToggle': false, 'scrollTop': false }"
     x-init="
          darkMode = JSON.parse(localStorage.getItem('darkMode'));
          $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(value)))"
@@ -24,8 +28,10 @@
 
     <!-- ===== Page Wrapper Start ===== -->
     <div class="flex h-screen overflow-hidden">
-      
-    <x-sidebar />
+      @php
+  $currentPage = Route::currentRouteName();
+@endphp
+    <x-sidebar :page="$currentPage" />
 
       <!-- ===== Content Area Start ===== -->
       <div

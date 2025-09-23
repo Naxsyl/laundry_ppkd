@@ -1,4 +1,4 @@
-@props(['name', 'label' => null, 'options' => [], 'selected' => null])
+@props(['name', 'label' => null, 'name_column' => 'name', 'options' => [], 'selected' => null, 'extra' => null])
 
 <div>
     @if($label)
@@ -17,6 +17,7 @@
         <select
             name="{{ $name }}"
             id="{{ $name }}"
+            {{ $attributes }}
             class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 
                    dark:focus:border-brand-800 h-11 w-full appearance-none rounded-lg border 
                    border-gray-300 bg-transparent px-4 py-2.5 pr-11 text-sm text-gray-800 
@@ -30,10 +31,12 @@
             @foreach($options as $option)
                 <option
                     value="{{ $option->id }}"
+
+                    @if($extra && isset($option->{$extra['field']})) data-{{ $extra['name'] }}="{{ $option->{$extra['field']} }}" @endif
                     @selected($selected == $option->id)
                     class="text-gray-700 dark:bg-gray-900 dark:text-gray-400"
                 >
-                    {{ $option->level_name }}
+                    {{ $option->{$name_column} }}
                 </option>
             @endforeach
         </select>

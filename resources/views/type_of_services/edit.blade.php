@@ -1,7 +1,7 @@
-<x-layouts.app :page="'users'">
-<x-partials.page-header title="Tambah User" :breadcrumbs="[
-       ['label' => 'Users', 'route' => 'users.index'],
-       ['label' => 'Tambah']
+<x-layouts.app :page="'services'">
+<x-partials.page-header title="Edit Service" :breadcrumbs="[
+       ['label' => 'Service', 'route' => 'type_of_services.index'],
+       ['label' => 'Edit']
    ]
    " />
 <div
@@ -11,16 +11,16 @@
                     <h3
                       class="text-base font-medium text-gray-800 dark:text-white/90"
                     >
-                      Tambah User
+                      Edit Service
                     </h3>
 </div>
 <div class="space-y-6 border-t border-gray-100 p-5 sm:p-6 dark:border-gray-800" >
-    <form action="{{ route('users.store') }}" method="post">
+    <form action="{{ route('type_of_services.update', $service->id) }}" method="post">
          @csrf
-         <x-form.input name="name" label="Name" />
-         <x-form.input name="email" label="Email" type="email" />
-         <x-form.input name="password" label="Password" type="password" />
-         <x-form.select name="id_level" label="Select Level" :name_column="'level_name'" :options="$levels" :selected="old('id_level')"  />
+         @method('PUT')
+         <x-form.input name="service_name" label="Nama Service" :value="$service->service_name" />
+         <x-form.input name="price" label="Harga" type="number" :value="$service->price" />
+         <x-form.text-area name="description" label="Deskripsi" :value="$service->description" />
         <input class="inline-flex items-center gap-2 px-4 py-3 mt-3 text-sm font-medium text-white transition rounded-lg bg-brand-500 shadow-theme-xs hover:bg-brand-600" type="submit"></input>
     </form>
 </div>

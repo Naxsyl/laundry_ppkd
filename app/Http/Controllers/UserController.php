@@ -50,7 +50,7 @@ class UserController extends Controller
             'id_level' => $request->id_level
         ]);
 
-        return redirect()->route('users.index');
+        return redirect()->route('users.index')->with('success', 'User Berhasil Ditambahkan');
     }
     /**
      * Display the specified resource.
@@ -65,7 +65,9 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $user = User::find($id); // ambil satu data user dari $id
+        $levels = Level::all(); // ambil semua data levels
+        return view('users.edit', compact('user', 'levels'));
     }
 
     /**
@@ -73,7 +75,15 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $user = User::find($id);
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password,
+            'id_level' => $request->id_level
+        ]);
+
+        return redirect()->route('users.index')->with('success', 'User Berhasil Diedit');
     }
 
     /**
@@ -81,6 +91,8 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $user = User::find($id);
+        $user->delete();
+        return redirect()->route('users.index')->with('success', 'User Berhasil Dihapus');
     }
 }
