@@ -14,23 +14,39 @@ class ReportController extends Controller
         $endDate = $request->get('end_date', Carbon::now()->format('Y-m-d'));
 
         return TransOrder::with('customer', 'transOrderDetails.typeOfService', 'transLaundryPickups')
-            ->whereBetween('order_date', [$startDate, $endDate])
-            ->orWhereBetween('order_end_date', [$startDate, $endDate])
+            ->where(function ($query) use ($startDate, $endDate) {
+                $query->whereBetween('order_date', [$startDate, $endDate])
+                    ->orWhereBetween('order_end_date', [$startDate, $endDate]);
+            })
             ->get();
     }
-
     public function index(Request $request)
     {
-        $orders = $this->getFilteredOrders($request);
+        // Ambil tanggal dari request, default awal bulan sampai hari ini
+        $startDate = $request->get('start_date', Carbon::now()->startOfMonth()->format('Y-m-d'));
+        $endDate = $request->get('end_date', Carbon::now()->format('Y-m-d'));
 
+        // Pastikan format tanggal valid (jika gagal, pakai default)
+        try {
+            $startDate = Carbon::parse($startDate)->format('Y-m-d');
+            $endDate = Carbon::parse($endDate)->format('Y-m-d');
+        } catch (\Exception $e) {
+            $startDate = Carbon::now()->startOfMonth()->format('Y-m-d');
+            $endDate = Carbon::now()->format('Y-m-d');
+        }
+
+        // Ambil data order sesuai filter tanggal
+        $orders = TransOrder::with('customer', 'transOrderDetails.typeOfService')
+            ->whereBetween('order_date', [$startDate, $endDate])
+            ->get();
+
+        // Statistik
         $totalRevenue = $orders->where('order_status', 1)->sum('total');
         $totalOrders = $orders->count();
         $completedOrders = $orders->where('order_status', 1)->count();
         $pendingOrders = $orders->where('order_status', 0)->count();
 
-        $startDate = $request->get('start_date', Carbon::now()->startOfMonth()->format('Y-m-d'));
-        $endDate = $request->get('end_date', Carbon::now()->format('Y-m-d'));
-
+        // Kirim ke view
         return view('reports.index', compact(
             'orders',
             'totalRevenue',
@@ -42,21 +58,27 @@ class ReportController extends Controller
         ));
     }
 
-    // public function exportPdf(Request $request)
-    // {
-    //     // Ambil data dengan filter tanggal (custom sesuai kebutuhanmu)
-    //     $orders = $this->getFilteredOrders($request);
+    public function print(Request $request)
+    {
+        $orders = $this->getFilteredOrders($request);
 
-    //     $pdf = PDF::loadView('reports.export_pdf', compact('orders'))->setPaper('a4', 'landscape'); // bisa portrait kalau mau
+        $totalRevenue = $orders->where('order_status', 1)->sum('total');
+        $totalOrders = $orders->count();
+        $completedOrders = $orders->where('order_status', 1)->count();
+        $pendingOrders = $orders->where('order_status', 0)->count();
 
-    //     $filename = 'laporan_penjualan_' . Carbon::now()->format('Ymd_His') . '.pdf';
-    //     return $pdf->download($filename);
-    // }
+        $startDate = $request->get('start_date', Carbon::now()->startOfMonth()->format('Y-m-d'));
+        $endDate = $request->get('end_date', Carbon::now()->format('Y-m-d'));
 
-    // public function exportExcel(Request $request)
-    // {
-    //     $export = new OrdersExport($request->start_date, $request->end_date);
-    //     $filename = 'laporan_penjualan_' . Carbon::now()->format('Ymd_His') . '.xlsx';
-    //     return Excel::download($export, $filename);
-    // }
+        // Tampilkan view print tanpa tombol/filter dan dengan style khusus
+        return view('reports.print', compact(
+            'orders',
+            'totalRevenue',
+            'totalOrders',
+            'completedOrders',
+            'pendingOrders',
+            'startDate',
+            'endDate'
+        ));
+    }
 }

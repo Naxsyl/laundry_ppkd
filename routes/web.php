@@ -31,3 +31,4 @@ Route::get('get-all-data-orders', [TransOrderController::class, 'getAllDataOrder
 Route::put('/orders/{id}/status', [TransOrderController::class, 'pickupLaundry'])->name('orders.pickupLaundry');
 
 Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+Route::get('/reports/print', [ReportController::class, 'print'])->name('reports.print');
