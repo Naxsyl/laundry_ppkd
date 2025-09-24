@@ -16,11 +16,11 @@ return new class extends Migration
             $table->foreignId('id_customer')->constrained('customers');
             $table->string('order_code', 50);
             $table->date('order_date');
-            $table->date('order_end_date');
-            $table->tinyInteger('order_status');
-            $table->integer('order_pay');
-            $table->integer('order_change');
-            $table->integer('total');
+            $table->date('order_end_date')->nullable();
+            $table->tinyInteger('order_status')->nullable();
+            $table->integer('order_pay')->nullable();
+            $table->integer('order_change')->nullable();
+            $table->integer('total')->nullable();
             $table->timestamps();
         });
     }

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('id_order')->constrained('trans_orders');
             $table->foreignId('id_customer')->constrained('customers');
             $table->date('pickup_date');
-            $table->text('notes');
+            $table->text('notes')->nullable();
             $table->timestamps();
         });
     }

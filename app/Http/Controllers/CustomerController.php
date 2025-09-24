@@ -66,7 +66,15 @@ class CustomerController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $fullPhone = $request->phone_prefix . $request->phone_number;
+        $customer = Customer::find($id);
+        $customer->update([
+            'customer_name' => $request->customer_name,
+            'phone' => $fullPhone,
+            'address' => $request->address
+        ]);
+
+        return redirect()->route('customers.index')->with('success', 'Customer Berhasil Diubah');
     }
 
     /**
@@ -74,6 +82,7 @@ class CustomerController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Customer::find($id)->delete();
+        return redirect()->route('customers.index')->with('success', 'Customer Berhasil Dihapus');
     }
 }

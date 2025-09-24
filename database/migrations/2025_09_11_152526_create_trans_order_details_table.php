@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('id_service')->constrained('type_of_services');
             $table->integer('qty');
             $table->double('subtotal', 10, 2);
-            $table->text('notes');
+            $table->text('notes')->nullable();
             $table->timestamps();
         });
     }

@@ -20,7 +20,7 @@ class RoleMiddleware
             return redirect()->name('login');
         }
 
-        $userRole = strtolower(Auth::user()->role);
+        $userRole = strtolower(Auth::user()->level->level_name);
         $allowedRoles = array_map('strtolower', $roles);
 
         if (!in_array($userRole, $allowedRoles)) {

@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        Level::factory()->create(['level_name' => 'Admin']);
+        Level::factory()->create(['level_name' => 'Administrator']);
         Level::factory()->create(['level_name' => 'Operator']);
         Level::factory()->create(['level_name' => 'Pimpinan']);
 
@@ -25,6 +25,18 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@example.com',
             'password' => bcrypt('password'),
             'id_level' => 1
+        ]);
+        User::factory()->create([
+            'name' => 'Operator',
+            'email' => 'operator@example.com',
+            'password' => bcrypt('password'),
+            'id_level' => 2
+        ]);
+        User::factory()->create([
+            'name' => 'Pimpinan',
+            'email' => 'pimpinan@example.com',
+            'password' => bcrypt('password'),
+            'id_level' => 3
         ]);
     }
 }

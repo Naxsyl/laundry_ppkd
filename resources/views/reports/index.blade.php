@@ -1,7 +1,5 @@
 <x-layouts.app :page="'reports'">
-    <x-partials.page-header title="Laporan" :breadcrumbs="[
-        ['label' => 'Laporan']
-    ]" />
+    <x-partials.page-header title="Laporan" :breadcrumbs="[['label' => 'Laporan']]" />
 
     <main>
         <div class="p-4 mx-auto max-w-7xl md:p-6">
@@ -17,25 +15,13 @@
                 class="flex flex-wrap items-center justify-between p-4 bg-white rounded-md shadow-sm mb-6 dark:border-gray-700 dark:bg-gray-900 text-gray-800 dark:text-white/90">
                 <form method="GET" action="{{ route('reports.index') }}" class="flex flex-wrap items-center gap-3">
                     <!-- Start Date -->
-                    <input
-                        id="startDate"
-                        type="text"
-                        name="start_date"
+                    <input id="startDate" type="text" name="start_date"
                         class="datepicker rounded-md border border-gray-300 px-3 py-2 text-sm focus:ring-blue-200 focus:ring-opacity-50 dark:text-white/90"
-                        placeholder="Pilih tanggal mulai"
-                        value="{{ $startDate }}"
-                        autocomplete="off"
-                    />
+                        placeholder="Pilih tanggal mulai" value="{{ $startDate }}" autocomplete="off" />
                     <!-- End Date -->
-                    <input
-                        id="endDate"
-                        type="text"
-                        name="end_date"
+                    <input id="endDate" type="text" name="end_date"
                         class="datepicker rounded-md border border-gray-300 px-3 py-2 text-sm focus:ring-blue-200 focus:ring-opacity-50 dark:text-white/90"
-                        placeholder="Pilih tanggal akhir"
-                        value="{{ $endDate }}"
-                        autocomplete="off"
-                    />
+                        placeholder="Pilih tanggal akhir" value="{{ $endDate }}" autocomplete="off" />
                     <!-- Button -->
                     <button type="submit"
                         class="inline-flex items-center gap-2 rounded-md bg-brand-500 px-4 py-2 text-sm font-medium text-white hover:bg-brand-600 transition">
@@ -47,10 +33,10 @@
                         Filter
                     </button>
                 </form>
-                <a href="{{ route('reports.print', ['start_date' => $startDate, 'end_date' => $endDate]) }}" target="_blank"
-   class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 no-print">
-   Print
-</a>
+                <a href="{{ route('reports.print', ['start_date' => $startDate, 'end_date' => $endDate]) }}"
+                    target="_blank" class="px-4 py-2 bg-brand-500 text-white rounded hover:bg-blue-700 no-print">
+                    Print
+                </a>
 
             </div>
 
@@ -58,7 +44,8 @@
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-6 text-gray-800 dark:text-white/90">
                 <div class="text-center p-6 border rounded-lg bg-white dark:bg-gray-900">
                     <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Pendapatan</p>
-                    <p class="mt-1 text-xl font-bold text-green-600">Rp. {{ number_format($totalRevenue, 0, ',', '.') }}</p>
+                    <p class="mt-1 text-xl font-bold text-green-600">Rp. {{ number_format($totalRevenue, 0, ',', '.') }}
+                    </p>
                 </div>
                 <div class="text-center p-6 border rounded-lg bg-white dark:bg-gray-900">
                     <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Total Order</p>
@@ -75,7 +62,8 @@
             </div>
 
             <!-- Tabel Transaksi -->
-            <div class="overflow-x-auto rounded-xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
+            <div
+                class="overflow-x-auto rounded-xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
                 <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                     <thead class="bg-gray-50 dark:bg-gray-800">
                         <tr>
@@ -112,10 +100,14 @@
                     <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-900 dark:divide-gray-800">
                         @forelse ($orders as $order)
                             <tr>
-                                <td class="px-6 py-4 text-sm text-gray-800 dark:text-white/90">{{ $order->order_code }}</td>
-                                <td class="px-6 py-4 text-sm text-gray-800 dark:text-white/90">{{ $order->customer->customer_name }}</td>
-                                <td class="px-6 py-4 text-sm text-gray-800 dark:text-white/90">{{ $order->order_date->format('d/m/Y') }}</td>
-                                <td class="px-6 py-4 text-sm text-gray-800 dark:text-white/90">{{ $order->order_end_date->format('d/m/Y') }}</td>
+                                <td class="px-6 py-4 text-sm text-gray-800 dark:text-white/90">{{ $order->order_code }}
+                                </td>
+                                <td class="px-6 py-4 text-sm text-gray-800 dark:text-white/90">
+                                    {{ $order->customer->customer_name }}</td>
+                                <td class="px-6 py-4 text-sm text-gray-800 dark:text-white/90">
+                                    {{ $order->order_date->format('d/m/Y') }}</td>
+                                <td class="px-6 py-4 text-sm text-gray-800 dark:text-white/90">
+                                    {{ $order->order_end_date->format('d/m/Y') }}</td>
                                 <td class="px-6 py-4 text-sm text-gray-800 dark:text-white/90">
                                     @foreach ($order->transOrderDetails as $detail)
                                         <div>{{ $detail->typeOfService->service_name }} ({{ $detail->qty }}kg)</div>
@@ -125,10 +117,9 @@
                                     {{ number_format($order->total, 0, ',', '.') }}</td>
                                 <td class="px-6 py-4 text-sm">
                                     <span
-                                        class="px-2 py-1 rounded-full text-xs font-medium 
-                                        @if ($order->order_status === 1) bg-green-100 text-green-700 
-                                        @else bg-yellow-100 text-yellow-700 
-                                        @endif">
+                                        class="px-2 py-1 rounded-full text-xs font-medium
+                                        @if ($order->order_status === 1) bg-green-100 text-green-700
+                                        @else bg-yellow-100 text-yellow-700 @endif">
                                         {{ $order->status_text }}
                                     </span>
                                 </td>
